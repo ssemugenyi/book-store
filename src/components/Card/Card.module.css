@@ -1,0 +1,27 @@
+.card__wrapper {
+  min-width: 25rem;
+  max-width: 30rem;
+  margin: 1.5rem;
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.card__wrapper:hover {
+  cursor: pointer;
+  box-shadow: rgba(100, 100, 111, 0.4) 0px 7px 29px 0px;
+}
+.card__image img {
+  max-width: 100%;
+}
+.card__details {
+  margin: 1rem 0;
+}
+.card__buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.delete {
+  background-color: red;
+}
