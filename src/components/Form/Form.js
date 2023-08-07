@@ -2,14 +2,20 @@ import React, { useEffect, useState } from "react";
 import styles from "./Form.module.css";
 import { useNavigate } from "react-router-dom";
 import Button from "../Common/Button";
-import axios from "axios";
+
+import { BOOKSTORE_APIS } from "../../adapters";
 
 const Form = () => {
-  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [authToken, setAuthToken] = useState(null);
-  const [response, setResponse] = useState({});
+  const [authToken, setAuthToken] = useState("");
+
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState({
+    userName: "",
+    userID: "",
+  });
 
   const [feedback, setFeedback] = useState({
     error: "",
@@ -23,20 +29,23 @@ const Form = () => {
 
   useEffect(() => {
     setFeedback({ error: "", message: "" });
-  }, [values]);
-
-  useEffect(() => {
     setValues({ name: "", password: "" });
   }, [isLogin]);
+
+  useEffect(() => {
+    navigate("/dashboard");
+  }, [authToken]);
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   };
+
   const toggleForm = (e) => {
     e.preventDefault();
     setIsLogin(!isLogin);
   };
+
   const submitHandler = async (event) => {
     setIsLoading(true);
     event.preventDefault();
@@ -50,25 +59,23 @@ const Form = () => {
       };
 
       try {
-        const response = await axios.post(
-          "https://bookstore.toolsqa.com/Account/v1/User",
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Basic c3NlbXVnZW55aTppc2FhYw==",
-            },
-          }
-        );
-        console.log(response.data);
+        const response = await BOOKSTORE_APIS.registerUser(data);
 
-        setFeedback({
-          ...feedback,
-          message: `${data.userName} is created successfully`,
-        });
+        if (response.status === 201) {
+          setUser({
+            userID: response.data?.userID,
+            userName: response.data?.username,
+          });
+          setFeedback({
+            ...feedback,
+            message: `${data.userName} is created successfully`,
+          });
+          setIsLogin(true);
+        }
+        localStorage.setItem("userId", response.data?.userID);
 
+        setValues({ name: "", password: "" });
         setIsLoading(false);
-        setIsLogin(true);
       } catch (error) {
         setIsLoading(false);
       }
@@ -78,32 +85,28 @@ const Form = () => {
         password: values.password,
       };
       try {
-        const response = await axios.post(
-          "https://bookstore.toolsqa.com/Account/v1/GenerateToken",
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Basic c3NlbXVnZW55aTppc2FhYw==",
-            },
-          }
-        );
-        console.log(response.data);
-        setAuthToken(response?.data?.token);
+        const response = await BOOKSTORE_APIS.loginUser(data);
+
         if (response?.data.status === "Failed") {
           setFeedback({
             ...feedback,
-            error: `${data.userName} is not authorised`,
+            error: `${data.userName} is not authorized`,
           });
         } else {
           setFeedback({
             ...feedback,
-            message: `${data.userName} is authorised`,
+            message: `${data.userName} is authorized`,
           });
+
+          setAuthToken(response?.data?.token);
+
+          localStorage.setItem("token", response?.data?.token);
+          localStorage.setItem("date", response?.data?.expires);
+          localStorage.setItem("userName", data.userName);
         }
+        setValues({ name: "", password: "" });
 
         setIsLoading(false);
-        navigate("/dashboard");
       } catch (error) {
         setIsLoading(false);
       }

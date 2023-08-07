@@ -1,21 +1,34 @@
 .card__wrapper {
   min-width: 25rem;
   max-width: 30rem;
-  margin: 1.5rem;
-  padding: 2rem;
+  margin: 1rem;
   border-radius: 10px;
   background-color: #fff;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  overflow: hidden;
 }
 .card__wrapper:hover {
   cursor: pointer;
   box-shadow: rgba(100, 100, 111, 0.4) 0px 7px 29px 0px;
 }
+.card__image {
+  overflow: hidden;
+}
 .card__image img {
   max-width: 100%;
+  transition: all 0.5s ease-in-out;
+}
+.card__image img:hover {
+  transform: scale(1.2);
+}
+.card__content {
+  padding: 2rem;
 }
 .card__details {
   margin: 1rem 0;
+}
+.card__details h3:hover {
+  color: blue;
 }
 .card__buttons {
   display: flex;
@@ -24,4 +37,8 @@
 }
 .delete {
   background-color: red;
+}
+.delete:hover {
+  color: red;
+  background-color: whitesmoke;
 }

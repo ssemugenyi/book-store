@@ -9,7 +9,7 @@ const Button = (props) => {
       onClick={onClick}
       disabled={disable}
     >
-      {title}
+      <span>{title}</span>
     </button>
   );
 };

@@ -1,0 +1,50 @@
+.header__wrapper {
+  background-color: #e8b446;
+  height: 4.8rem;
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+  top: 0;
+}
+.header__content {
+  margin: 0 auto;
+  max-width: 120rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo h2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+.logo a {
+  text-decoration: none;
+}
+.logo h2:hover {
+  cursor: pointer;
+}
+.menu ul {
+  display: flex;
+}
+.menu ul li {
+  list-style: none;
+  margin-right: 1.5rem;
+}
+.menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.4rem;
+}
+.menu ul li a:hover,
+.menu ul li a.active {
+  color: #000;
+}
+.user {
+  margin-left: 2.5rem;
+  align-content: center;
+  color: #fff;
+  font-size: 1.4rem;
+  text-transform: capitalize;
+}
